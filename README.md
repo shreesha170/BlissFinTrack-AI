@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # BlissFinTrack - AI-Powered Finance Management Platform
 
 ## Overview
@@ -78,9 +78,7 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Learn More
-<<<<<<< HEAD
-=======
-**Project Description: Wealth - AI-Powered Finance Management Platform**
+**Project Description: - AI-Powered Finance Management Platform**
 
 The "BlissFinTrack" project is a full-stack application designed to empower users in managing their personal finances effectively. Built using modern web technologies such as Next.js, Tailwind CSS, and Shad CN UI, this platform offers a sleek and responsive user interface that enhances user experience.
 
@@ -106,8 +104,6 @@ The "BlissFinTrack" project is a full-stack application designed to empower user
 
 Overall, the platform aims to provide a comprehensive, user-friendly solution for personal finance management, leveraging AI technology to enhance user experience and financial insights. 
 
-Would you like to explore any specific aspect of the project further?
->>>>>>> 9bf3d43 (commit budget alerts)
 To learn more about Next.js, take a look at the following resources:
 
 - [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
@@ -115,7 +111,7 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-<<<<<<< HEAD
+
 ## Testing
 The application includes unit and integration tests. To run the tests, use the following command:
 ```bash
