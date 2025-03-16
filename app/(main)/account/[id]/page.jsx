@@ -11,8 +11,8 @@ import { Suspense } from "react";
 import { BarLoader } from "react-spinners";
 import AccountChart from "../_components/account-chart";
 import TransactionTable from "../_components/transaction-table";
-import PlaidConnectButton from "../_components/PlaidConnectButton";
-
+//import PlaidConnectButton from "../_components/PlaidConnectButton";
+import ImportTransactions from "../_components/import-transactions";
 
 export default async function AccountPage({ params }) {
   const accountData = await getAccountWithTransactions(params.id);
@@ -47,7 +47,7 @@ export default async function AccountPage({ params }) {
         </div>
       </div>
 
-      <PlaidConnectButton/>
+      {/* <PlaidConnectButton/> */}
 
       {/* Chart Section */}
       <Suspense

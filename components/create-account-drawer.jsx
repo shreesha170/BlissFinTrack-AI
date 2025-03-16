@@ -96,6 +96,12 @@ const CreateAccountDrawer = ({ children }) => {
               <SelectContent>
                 <SelectItem value="CURRENT">Current</SelectItem>
                 <SelectItem value="SAVINGS">Savings</SelectItem>
+                <SelectItem value="FD">Fixed Deposit</SelectItem>
+                <SelectItem value="RD">Recurring Deposit</SelectItem>
+                <SelectItem value="SALARY">Salary Account</SelectItem>
+                <SelectItem value="PPF">PPF (Public Provident Fund)Account</SelectItem>
+                <SelectItem value="DEMAT">Demat Account</SelectItem>
+                <SelectItem value="LOAN">Loan Account</SelectItem>
               </SelectContent>
             </Select>
             {errors.type && (

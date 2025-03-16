@@ -1,5 +1,6 @@
-import arcjet from "@arcjet/next";
+import arcjet, { createMiddleware, detectBot, shield } from "@arcjet/next";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
 
 // Define protected routes that require authentication
 const isProtectedRoute = createRouteMatcher([
@@ -32,6 +33,8 @@ const clerk = clerkMiddleware(async (auth, req) => {
     // Get user authentication data
     const { userId } = await auth();
 
+    
+
     // Check if the user is not authenticated and the route is protected
     if (!userId && isProtectedRoute(req)) {
         const { redirectToSignIn } = await auth();
@@ -42,7 +45,7 @@ const clerk = clerkMiddleware(async (auth, req) => {
     return NextResponse.next();;
 });
 // Chain middlewares - ArcJet runs first, then Clerk
-export default createMiddleware(aj, clerk);
+export default createMiddleware(aj,clerk);
 // Configure route matching logic
 export const config = {
     matcher: [

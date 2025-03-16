@@ -7,6 +7,7 @@ import { auth } from "@clerk/nextjs/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { revalidatePath } from "next/cache";
 
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 const serializeAmount = (obj) => ({
@@ -81,6 +82,18 @@ export async function createTransaction(data){
       });
       return newTransaction;
     });
+
+    // // ✅ Trigger Inngest event for SMS
+    // await inngest.send({
+    //   name: "transaction.added.success",
+    //   data: {
+    //     userId: user.id,
+    //     amount: data.amount,
+    //     accountName: account.name,
+    //     phoneNumber: user.phoneNumber, // Assuming phoneNumber is in user table
+    //   },
+    // });
+
     revalidatePath("/dashboard");
     revalidatePath(`/account/${data.accountId}`);
     
@@ -258,6 +271,17 @@ export async function updateTransaction(id, data) {
       return updated;
     });
 
+    // // ✅ Trigger Inngest event for SMS after updating the transaction
+    // await inngest.send({
+    //   name: "transaction.updated.success",
+    //   data: {
+    //     userId: user.id,
+    //     amount: data.amount,
+    //     accountName: originalTransaction.account.name,
+    //     phoneNumber: user.phoneNumber,
+    //   },
+    // });
+
     revalidatePath("/dashboard");
     revalidatePath(`/account/${data.accountId}`);
     return { success: true, data: serializeAmount(transaction) };
@@ -265,3 +289,68 @@ export async function updateTransaction(id, data) {
     throw new Error(error.message);
 }
 }
+
+// export async function createTransactionSMS(data) {
+//   try {
+//     const { userId } = await auth();
+//     if (!userId) throw new Error("Unauthorized");
+
+//     const req = await request();
+//     const decision = await aj.protect(req, { userId, requested: 1 });
+    
+//     if (decision.isDenied()) {
+//       throw new Error("Too many requests. Please Try again later.");
+//     }
+
+//     const user = await db.user.findUnique({
+//       where: { clerkUserId: userId },
+//     });
+
+//     if (!user) throw new Error("User not found");
+
+//     const account = await db.account.findUnique({
+//       where: { id: data.accountId, userId: user.id },
+//     });
+
+//     if (!account) throw new Error("Account not found");
+
+//     // Calculate balance
+//     const balanceChange = data.type === "EXPENSE" ? -data.amount : data.amount;
+//     const newBalance = account.balance.toNumber() + balanceChange;
+
+//     const transaction = await db.$transaction(async (tx) => {
+//       const newTransaction = await tx.transaction.create({
+//         data: {
+//           ...data,
+//           userId: user.id,
+//           nextRecurringDate: data.isRecurring && data.recurringInterval
+//             ? calculateNextRecurringDate(data.date, data.recurringInterval)
+//             : null,
+//         },
+//       });
+
+//       await tx.account.update({
+//         where: { id: data.accountId },
+//         data: { balance: newBalance },
+//       });
+
+//       return newTransaction;
+//     });
+
+//     // Send SMS (assuming phoneNumber exists in user object)
+//     if (user.phoneNumber) {
+//       await sendSMS({
+//         to: user.phoneNumber,
+//         message: `Transaction of ₹${data.amount} ${data.type === "INCOME" ? "credited" : "debited"} successfully.`,
+//       });
+//     }
+
+//     revalidatePath("/dashboard");
+//     revalidatePath(`/account/${data.accountId}`);
+
+//     return { success: true, data: serializeAmount(transaction) };
+//   } catch (error) {
+//     console.error("Error creating transaction:", error.message);
+//     return { success: false, message: error.message };
+//   }
+// }

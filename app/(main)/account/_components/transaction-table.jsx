@@ -9,7 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Trash, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, RefreshCw, Clock, MoreHorizontal, Search, X, CalendarIcon } from "lucide-react";
+import { Trash, ChevronUp, ChevronDown, ChevronLeft, ChevronRight, RefreshCw, Clock, MoreHorizontal, Search, X, CalendarIcon, Upload } from "lucide-react";
 import { categoryColors } from "@/data/categories";
 import { format, addMinutes, isAfter, parseISO, isBefore } from "date-fns";
 import React, { useState,useMemo, useEffect } from "react";
@@ -45,8 +45,7 @@ import { useRouter } from "next/navigation";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { formatCurrency } from "@/lib/utils";
-import ImportCSV from "../_components/ImportCSV";
-
+import Papa from "papaparse";
 
 const ITEMS_PER_PAGE = 15;
 const RECURRING_INTERVALS = {
@@ -57,48 +56,27 @@ const RECURRING_INTERVALS = {
 };
 
 
-const TransactionTable = ({ transactions: initialTransactions}) => {
-  const [bankAccounts, setBankAccounts] = useState([]);
-  const [transactions, setTransactions] = useState(initialTransactions);
-  const [selectedIds, setSelectedIds] = useState([]);
+const TransactionTable = ({ transactions}) => {
+  // const [bankAccounts, setBankAccounts] = useState([]);
+  const [importedTransactions, setImportedTransactions] = useState([]);
+   const [selectedIds, setSelectedIds] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     field: "date",
     direction: "desc",
   });
 
-  // Fetch bank accounts from Plaid API
-  const fetchBankAccounts = async () => {
-    try {
-      const response = await fetch("/api/plaid/accounts");
-      if (!response.ok) throw new Error("Failed to fetch bank accounts");
-      const data = await response.json();
-      setBankAccounts(data.accounts);
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
-
-  useEffect(() => {
-    fetchBankAccounts();
-  }, []);
-
-
-  const handleImportedData = (data) => {
-    setTransactions(data);
-  };
-
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
   const [recurringFilter, setRecurringFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
   // **Date Filters**
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
 
   const router = useRouter();
-  const [currentPage, setCurrentPage] = useState(1);
+ 
   const itemsPerPage = 10; // Adjust as needed
 
-  
   // Memoized filtered and sorted transactions
   const filteredAndSortedTransactions = useMemo(() => {
     let result = [...transactions];
@@ -181,6 +159,8 @@ const TransactionTable = ({ transactions: initialTransactions}) => {
         current.field === field && current.direction === "asc" ? "desc" : "asc",
     }));
   };
+  
+
 
   const handleSelect = (id) => {
     setSelectedIds((current) =>
@@ -239,18 +219,18 @@ const TransactionTable = ({ transactions: initialTransactions}) => {
       return;
     }
   
-    const headers = ["ID", "Date", "Description", "Amount", "Category", "Type"];
+    const headers = ["Date", "Description", "Amount", "Category", "Recurring"];
     const rows = filteredAndSortedTransactions.map((t) => [
-      t.id,
       t.date,
       t.description,
-      t.amount, // `₹${t.amount.toFixed(2)}`, // INR formatting
+      t.amount,
       t.category,
-      t.type,
+      t.isRecurring ? "Yes" : "No",
     ]);
   
-    let csvContent = "data:text/csv;charset=utf-8," 
-      + [headers, ...rows].map((e) => e.join(",")).join("\n");
+    let csvContent =
+      "data:text/csv;charset=utf-8," +
+      [headers, ...rows].map((e) => e.join(",")).join("\n");
   
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
@@ -261,12 +241,26 @@ const TransactionTable = ({ transactions: initialTransactions}) => {
     document.body.removeChild(link);
   };
 
-  const importFromCSV = (data) => {
-    console.log("Imported CSV Data:", data);
-    // Add logic to handle CSV data
-  };
-  
+  const handleCSVImport = (event) => {
+    const file = event.target.files[0];
+    
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (result) => {
+        const parsedTransactions = result.data.map((row, index) => ({
+          id: `imported-${index}`, // Unique ID for imported transactions
+          date: row.Date,
+          description: row.Description,
+          amount: parseFloat(row.Amount),
+          category: row.Category,
+          isRecurring: row.Recurring === "Yes",
+        }));
 
+        setImportedTransactions(parsedTransactions);
+      },
+    });
+  };
     return (
       
     <div className="space-y-4">
@@ -340,9 +334,14 @@ const TransactionTable = ({ transactions: initialTransactions}) => {
         </div>
         <div className="flex gap-2">
         <Button onClick={exportToCSV} variant="outline">Export CSV</Button>
-        <ImportCSV onImport={handleImportedData} />
+        {/* CSV Import Button */}
+        {/* <input type="file" accept=".csv" onChange={handleCSVImport} className="border p-1 rounded-md" /> */}
+        {/* <input type="file" accept=".csv" onChange={handleCSVImport} /> */}
         </div>
+        
       </div>
+
+      
       
       <div className="space-y-4">
         {/* Date Filters (From & To) */}
@@ -373,7 +372,7 @@ const TransactionTable = ({ transactions: initialTransactions}) => {
       
 
       <div className="rounded-md border p-2">
-        <Table>
+         <Table>
           <TableHeader>
             <TableRow>
               <TableHead className="w-[50px]">
@@ -520,7 +519,8 @@ const TransactionTable = ({ transactions: initialTransactions}) => {
               })
             )}
           </TableBody>
-        </Table>
+        </Table> 
+         
       </div>
          {/* Pagination */}
       {totalPages > 1 && (

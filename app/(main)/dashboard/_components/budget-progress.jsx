@@ -63,6 +63,12 @@ export function BudgetProgress({ initialBudget, currentExpenses }) {
     }
   }, [error]);
 
+  // Debugging logs
+  console.log("Budget Amount:", initialBudget?.amount);
+  console.log("Current Expenses:", currentExpenses);
+
+
+
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

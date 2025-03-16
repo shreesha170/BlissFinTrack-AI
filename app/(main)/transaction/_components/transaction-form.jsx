@@ -103,6 +103,29 @@ const formatCurrency = (amount) => {
     }
   };
 
+  // const onSubmit = async (data) => {
+  //   const formData = { ...data, amount: parseFloat(data.amount) };
+  
+  //   if (editMode) {
+  //     await transactionFn(editId, formData);
+  //   } else {
+  //     const response = await transactionFn(formData);
+  
+  //     if (!response || typeof response !== "object" || !("success" in response)) {
+  //       console.error("Invalid response from transaction function:", response);
+  //       alert("Transaction failed: Unexpected error occurred.");
+  //       return;
+  //     }
+  
+  //     if (response.success) {
+  //       alert(`Transaction successful! Amount: ₹${response.data.amount}`);
+  //     } else {
+  //       alert(`Transaction failed: ${response.message}`);
+  //     }
+  //   }
+  // };
+  
+
   const handleScanComplete = (scannedData) => {
     if (scannedData) {
       setValue("amount", scannedData.amount.toString());
@@ -118,6 +141,8 @@ const formatCurrency = (amount) => {
   };
 
   useEffect(() => {
+    console.log("Transaction Result:", transactionResult); // Debugging response
+    console.log("Transaction Loading:", transactionLoading);
     if (transactionResult?.success && !transactionLoading) {
       toast.success(
         editMode
@@ -189,7 +214,7 @@ const formatCurrency = (amount) => {
             <SelectContent>
               {accounts.map((account) => (
                 <SelectItem key={account.id} value={account.id}>
-                   {account.name} ({formatCurrency(account.balance)})       {/* //(${parseFloat(account.balance).toFixed(2)}) */}
+                   {account.name} ({formatCurrency(account.balance.toFixed(2))})       {/* //(${parseFloat(account.balance).toFixed(2)}) */}
                 </SelectItem>
               ))}
               <CreateAccountDrawer>

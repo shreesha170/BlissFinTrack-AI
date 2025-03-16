@@ -8,16 +8,6 @@ import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import React, { useState } from 'react'
 import { Cell, Legend, Pie, PieChart, PolarAngleAxis, PolarGrid, PolarRadiusAxis, Radar, RadarChart, RadialBar, RadialBarChart, ResponsiveContainer, Tooltip } from 'recharts';
 
-// const COLORS = [
-//     "#FF6B6B",
-//     "#4ECDC4",
-//     "#45B7D1",
-//     "#96CEB4",
-//     "#FFEEAD",
-//     "#D4A5A5",
-//     "#9FA8DA",
-//   ];
-
 const COLORS = [
   "#1E88E5", // Rich Blue - Represents stability & trust
   "#43A047", // Vibrant Green - Growth, profit

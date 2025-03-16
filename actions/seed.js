@@ -2,8 +2,8 @@
 import { db } from "../lib/prisma.js"; // Adjusted to relative path
 import { subDays } from "date-fns";
 
-const ACCOUNT_ID = "f85ca8a7-a524-4b76-a4b2-d03b0fe9258c";
-const USER_ID = "f2fb7991-a316-4cb6-aa7c-b01301a79406";
+const USER_ID = "b923be0d-b6bc-4326-99ab-adc455155746";
+const ACCOUNT_ID = "684d1893-eef1-425c-a04f-56920eb44cd5";
 
 // Categories with their typical amount ranges
 const CATEGORIES = {
@@ -11,6 +11,8 @@ const CATEGORIES = {
     { name: "salary", range: [5000, 8000] },
     { name: "freelance", range: [1000, 3000] },
     { name: "investments", range: [500, 2000] },
+    { name: "fixed-deposit-interest", range: [200, 800] },
+    { name: "mutual-funds-dividends", range: [300, 1500] },
     { name: "other-income", range: [100, 1000] },
   ],
   EXPENSE: [
@@ -24,6 +26,10 @@ const CATEGORIES = {
     { name: "healthcare", range: [100, 1000] },
     { name: "education", range: [200, 1000] },
     { name: "travel", range: [500, 2000] },
+    { name: "emi", range: [1000, 5000] },
+    { name: "loan-payment", range: [2000, 7000] },
+    { name: "fixed-deposit", range: [5000, 20000] },
+    { name: "mutual-funds", range: [1000, 10000] },
   ],
 };
 
@@ -63,7 +69,7 @@ export async function seedTransactions() {
           amount,
           description: `${
             type === "INCOME" ? "Received" : "Paid for"
-          } ${category}- ₹${amount.toLocaleString("en-IN")}`, // ✅ Format INR,
+          } ${category} - ₹${amount.toLocaleString("en-IN")}`, // ✅ Format INR,
           date,
           category,
           status: "COMPLETED",

@@ -72,8 +72,10 @@ export async function updateBudget(amount) {
       where: { clerkUserId: userId },
     });
 
-    if (!user) throw new Error("User not found");
-
+    if (!user) {
+      throw new Error("User not found");
+    }
+    
     // Update or create budget
     const budget = await db.budget.upsert({
       where: {
@@ -89,6 +91,7 @@ export async function updateBudget(amount) {
     });
 
     revalidatePath("/dashboard");
+
     return {
       success: true,
       data: { ...budget, amount: budget.amount.toNumber() },
@@ -98,3 +101,6 @@ export async function updateBudget(amount) {
     return { success: false, error: error.message };
   }
 }
+
+
+    

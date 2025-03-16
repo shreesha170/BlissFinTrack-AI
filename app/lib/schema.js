@@ -2,7 +2,15 @@ import { z } from "zod";
 
 export const accountSchema = z.object({
   name: z.string().min(1, "Name is required"),
-  type: z.enum(["CURRENT", "SAVINGS"]),
+  type: z.enum(["CURRENT", 
+    "SAVINGS",
+    "FD", // Fixed Deposit
+    "RD", // Recurring Deposit
+    "SALARY", // Salary Account
+    "PPF", // Public Provident Fund Account
+    "DEMAT", // Demat Account
+    "LOAN", // Loan Account
+  ]),
   balance: z.string().min(1, "Initial balance is required"),
   isDefault: z.boolean().default(false),
 });

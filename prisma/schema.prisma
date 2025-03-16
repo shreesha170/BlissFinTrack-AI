@@ -11,9 +11,10 @@ datasource db {
 model User {
   id           String        @id @default(uuid())
   clerkUserId  String        @unique
-  email        String        @unique
+  email        String        @unique   
   name         String?
   imageUrl     String?
+  phoneNumber  String?       // ✅ Add this line
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   currency     String        @default("INR")
@@ -86,6 +87,12 @@ enum TransactionType {
 enum AccountType {
   CURRENT
   SAVINGS
+  FD       // Fixed Deposit
+  RD       // Recurring Deposit
+  SALARY   // Salary Account
+  PPF      // Public Provident Fund
+  DEMAT    // Demat Account
+  LOAN     // Loan Account
 }
 
 enum TransactionStatus {

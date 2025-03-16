@@ -1,7 +1,5 @@
 import { Body, Container, Head, Heading, Html, Preview, Section, Text } from "@react-email/components";
 
-
-
 export default function EmailTemplate({
   userName = "",
   type = "monthly-report",
@@ -25,16 +23,24 @@ export default function EmailTemplate({
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Income</Text>
-                <Text style={styles.heading}>₹{data?.stats.totalIncome.toFixed(2)}</Text>
+                <Text style={styles.heading}>
+                  {/* ₹{data?.stats.totalIncome.toFixed(2)} */}
+                  {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data?.stats.totalIncome)}
+                </Text>
+                
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Total Expenses</Text>
-                <Text style={styles.heading}>₹{data?.stats.totalExpenses.toFixed(2)}</Text>
+                <Text style={styles.heading}>
+                  {/* ₹{data?.stats.totalExpenses.toFixed(2)} */}
+                  {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data?.stats.totalExpenses)}
+                </Text>
               </div>
               <div style={styles.stat}>
                 <Text style={styles.text}>Net</Text>
                 <Text style={styles.heading}>
-                ₹{(data?.stats.totalIncome - data?.stats.totalExpenses).toFixed(2)}
+                {/* ₹{(data?.stats.totalIncome - data?.stats.totalExpenses).toFixed(2)} */}
+                {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(data?.stats.totalIncome - data?.stats.totalExpenses)}
                 </Text>
               </div>
             </Section>
@@ -47,7 +53,10 @@ export default function EmailTemplate({
                   ([category, amount]) => (
                     <div key={category} style={styles.row}>
                       <Text style={styles.text}>{category}</Text>
-                      <Text style={styles.text}>₹{amount.toFixed(2)}</Text>
+                      <Text style={styles.text}>
+                        {/* ₹{amount.toFixed(2)} */}
+                        {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(amount)}
+                      </Text>
                     </div>
                   )
                 )}
@@ -59,9 +68,15 @@ export default function EmailTemplate({
               <Section style={styles.section}>
                 <Heading style={styles.heading}>BlissFinTrack Insights</Heading>
                 {data.insights.map((insight, index) => (
+                  // <Text key={index} style={styles.text}>
+                  //   • {insight}
+                  // </Text>
                   <Text key={index} style={styles.text}>
-                    • {insight}
+                     • {insight.replace(/\$[\s]?([\d,]+(\.\d{2})?)/g, (match, amount) => 
+                     new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR' }).format(parseFloat(amount.replace(/,/g, '')))
+                    )}
                   </Text>
+
                 ))}
               </Section>
             )}
@@ -86,14 +101,18 @@ export default function EmailTemplate({
             <Heading style={styles.title}>Budget Alert</Heading>
             <Text style={styles.text}>Hello {userName},</Text>
             <Text style={styles.text}>
-             You&rsquo;ve used {Number(data?.percentageUsed) ? Number(data.percentageUsed).toFixed(1) : "0.0"}% of your
-             monthly budget.
+            <Text style={styles.text}>
+             Your account "{data?.accountName}" has used {Number(data?.percentageUsed) ? Number(data.percentageUsed).toFixed(1) : "0.0"}% of your monthly budget.
+             </Text>
+             {/* You&rsquo;ve used {Number(data?.percentageUsed) ? Number(data.percentageUsed).toFixed(1) : "0.0"}% of your
+             monthly budget. */}
              </Text>
 
             <Section style={styles.statsContainer}>
               <div style={styles.stat}>
                 <Text style={styles.text}>Budget Amount</Text>
-                <Text style={styles.heading}>₹{Number(data?.budgetAmount) ? Number(data.budgetAmount).toFixed(2) : "0.00"}</Text> 
+                <Text style={styles.heading}>₹{Number(data?.budgetAmount) ? Number(data.budgetAmount).toFixed(2) : "0.00"}
+                  </Text> 
                 {/* <Text style={styles.heading}>${Number(data?.budgetAmount) ? Number(data.budgetAmount).toFixed(2) : "0.00"}</Text> */}
 
               </div>
