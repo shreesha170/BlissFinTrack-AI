@@ -2,11 +2,10 @@
 # BlissFinTrack - AI-Powered Finance Management Platform
 
 ## Overview
-BlissFinTrack is a comprehensive AI-powered finance management platform designed to help users track their income and expenses, manage budgets, and gain valuable insights into their financial health. The application leverages artificial intelligence to categorize transactions, scan receipts, and generate personalized financial reports. Built with modern web technologies, BlissFinTrack offers a seamless and user-friendly experience on both desktop and mobile devices.
-=======
+BlissFinTrack is a comprehensive AI-powered finance management platform designed to help users track their income and expenses, manage budgets, and gain valuable insights into their financial health. The application leverages artificial intelligence to categorize transactions, scan receipts, and generate personalized financial reports. Built with modern web technologies, BlissFinTrack offers a seamless and user-friendly experience on both desktop and mobile devices
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`]
 ## Getting Started
->>>>>>> 9bf3d43 (commit budget alerts)
 
 ## Features
 ### User Management
@@ -133,7 +132,6 @@ npm test
 =======
 ## Deploy on Vercel
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
->>>>>>> 9bf3d43 (commit budget alerts)
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
