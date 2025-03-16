@@ -81,7 +81,7 @@ export async function seedTransactions() {
 
         totalBalance += type === "INCOME" ? amount : -amount;
         transactions.push(transaction);
-      }
+      }  
     }
 
     // Insert transactions in batches and update account balance
