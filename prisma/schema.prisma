@@ -11,7 +11,7 @@ datasource db {
 model User {
   id           String        @id @default(uuid())
   clerkUserId  String        @unique
-  email        String        @unique   
+  email        String        @unique
   name         String?
   imageUrl     String?
   phoneNumber  String?       // ✅ Add this line
@@ -87,12 +87,12 @@ enum TransactionType {
 enum AccountType {
   CURRENT
   SAVINGS
-  FD       // Fixed Deposit
-  RD       // Recurring Deposit
-  SALARY   // Salary Account
-  PPF      // Public Provident Fund
-  DEMAT    // Demat Account
-  LOAN     // Loan Account
+  FD
+  RD
+  SALARY
+  PPF
+  DEMAT
+  LOAN
 }
 
 enum TransactionStatus {

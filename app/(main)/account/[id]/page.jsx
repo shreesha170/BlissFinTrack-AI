@@ -1,9 +1,4 @@
-// import { Suspense } from "react";
-// import { getAccountWithTransactions } from "@/actions/account";
-// import { BarLoader } from "react-spinners";
-// import { TransactionTable } from "../_components/transaction-table";
-// import { notFound } from "next/navigation";
-// import { AccountChart } from "../_components/account-chart";
+
 
 import { getAccountWithTransactions } from "@/actions/account";
 import { notFound } from "next/navigation";
@@ -12,7 +7,7 @@ import { BarLoader } from "react-spinners";
 import AccountChart from "../_components/account-chart";
 import TransactionTable from "../_components/transaction-table";
 //import PlaidConnectButton from "../_components/PlaidConnectButton";
-import ImportTransactions from "../_components/import-transactions";
+//import ImportTransactions from "../_components/import-transactions";
 
 export default async function AccountPage({ params }) {
   const accountData = await getAccountWithTransactions(params.id);

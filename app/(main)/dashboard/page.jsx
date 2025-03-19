@@ -7,6 +7,7 @@ import DashboardOverview from "./_components/transaction-overview";
 import { getUserAccounts } from "@/actions/dashboard";
 import { getDashboardData } from "@/actions/dashboard";
 import { getCurrentBudget } from "@/actions/budget";
+import ChatBot from "@/components/chatbot";
 
 export default async function DashboardPage(){
   const [accounts, transactions] = await Promise.all([

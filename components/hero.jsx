@@ -31,7 +31,7 @@ const HeroSection = () => {
       <div className="container mx-auto text-center">
       <h1 className="text-5xl md:text-8xl lg:text-[105px] pb-6">
         <span className="gradient-title-first">
-          AI-Powered Finance for a Stress-Free Future  
+         AI-Powered Financial Management Platform    
           {/* Experience Financial Bliss with AI-Powered Insights */}
         </span>
         <br />

@@ -343,11 +343,11 @@ const TransactionTable = ({ transactions}) => {
 
       
       
-      <div className="space-y-4">
+      <div className="space-x-4">
         {/* Date Filters (From & To) */}
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="w-[150px] justify-start text-left">
+            <Button variant="outline" className="w-[200px] justify-start text-left">
               <CalendarIcon className="mr-2 h-4 w-4" />
               {fromDate ? format(fromDate, "PPP") : <span className="text-gray-500">From Date</span>}
             </Button>
@@ -356,10 +356,9 @@ const TransactionTable = ({ transactions}) => {
             <Calendar mode="single" selected={fromDate} onSelect={setFromDate} />
           </PopoverContent>
         </Popover>
-
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="outline" className="w-[150px] justify-start text-left">
+            <Button variant="outline" className="w-[200px] justify-start text-left">
               <CalendarIcon className="mr-2 h-4 w-4" />
               {toDate ? format(toDate, "PPP") : <span className="text-gray-500">To Date</span>}
             </Button>
